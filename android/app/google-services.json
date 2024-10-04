@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "408789406132",
+    "project_id": "presence-92700",
+    "storage_bucket": "presence-92700.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:408789406132:android:3196ec2b9be6d9454d62e1",
+        "android_client_info": {
+          "package_name": "com.iqbal.presence"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC909FTEvub3lAtFnJzb9QeP8tmhb6uGII"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
