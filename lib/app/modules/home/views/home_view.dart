@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
+import 'package:presence/app/routes/app_pages.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -10,8 +10,20 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('HomeView'),
+        title: const Text(
+          'HomeView',
+          style: TextStyle(color: Colors.white),
+        ),
         centerTitle: true,
+        backgroundColor: Colors.green[900],
+        actions: [
+          IconButton(
+              onPressed: () => Get.toNamed(Routes.ADD_PEGAWAI),
+              icon: Icon(
+                Icons.person_add_alt,
+                color: Colors.white,
+              ))
+        ],
       ),
       body: const Center(
         child: Text(
