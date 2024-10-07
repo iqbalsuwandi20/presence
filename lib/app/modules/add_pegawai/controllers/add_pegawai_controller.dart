@@ -33,6 +33,10 @@ class AddPegawaiController extends GetxController {
             "createdAt": DateTime.now().toIso8601String(),
           });
 
+          await userCredential.user!.sendEmailVerification();
+
+          Get.back();
+
           Get.snackbar("BERHASIL", "Berhasil membuat akun pegawai");
         }
       } on FirebaseAuthException catch (e) {
