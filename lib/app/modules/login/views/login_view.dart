@@ -21,6 +21,7 @@ class LoginView extends GetView<LoginController> {
         children: [
           TextField(
             controller: controller.emailC,
+            autocorrect: false,
             keyboardType: TextInputType.emailAddress,
             cursorColor: Colors.green[900],
             textInputAction: TextInputAction.next,
@@ -35,6 +36,7 @@ class LoginView extends GetView<LoginController> {
           ),
           TextField(
             controller: controller.passC,
+            autocorrect: false,
             obscureText: true,
             cursorColor: Colors.green[900],
             textInputAction: TextInputAction.next,

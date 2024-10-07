@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 
 import '../controllers/add_pegawai_controller.dart';
@@ -23,6 +22,7 @@ class AddPegawaiView extends GetView<AddPegawaiController> {
         children: [
           TextField(
             controller: controller.nipC,
+            autocorrect: false,
             keyboardType: TextInputType.number,
             cursorColor: Colors.green[900],
             textInputAction: TextInputAction.next,
@@ -40,6 +40,7 @@ class AddPegawaiView extends GetView<AddPegawaiController> {
           ),
           TextField(
             controller: controller.nameC,
+            autocorrect: false,
             cursorColor: Colors.green[900],
             textInputAction: TextInputAction.next,
             decoration: InputDecoration(
@@ -56,6 +57,7 @@ class AddPegawaiView extends GetView<AddPegawaiController> {
           ),
           TextField(
             controller: controller.emailC,
+            autocorrect: false,
             keyboardType: TextInputType.emailAddress,
             cursorColor: Colors.green[900],
             textInputAction: TextInputAction.next,
