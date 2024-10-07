@@ -11,7 +11,7 @@ class AddPegawaiView extends GetView<AddPegawaiController> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Tambah Pegawai',
+          'TAMBAH PEGAWAI',
           style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
