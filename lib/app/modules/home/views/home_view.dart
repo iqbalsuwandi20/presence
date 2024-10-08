@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:presence/app/routes/app_pages.dart';
@@ -29,6 +30,21 @@ class HomeView extends GetView<HomeController> {
         child: Text(
           'HomeView is working',
           style: TextStyle(fontSize: 20),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          await FirebaseAuth.instance.signOut();
+
+          Get.offAllNamed(Routes.LOGIN);
+
+          Get.snackbar(
+              "BERHASIL", "Anda berhasil keluar, silahkan masuk kembali!!");
+        },
+        backgroundColor: Colors.green[900],
+        child: Icon(
+          Icons.logout_outlined,
+          color: Colors.white,
         ),
       ),
     );
