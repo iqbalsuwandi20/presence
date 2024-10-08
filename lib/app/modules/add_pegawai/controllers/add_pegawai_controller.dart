@@ -9,11 +9,15 @@ class AddPegawaiController extends GetxController {
   TextEditingController emailC = TextEditingController();
   TextEditingController passAdminC = TextEditingController();
 
+  RxBool isLoading = false.obs;
+  RxBool isLoadingAddPegawai = false.obs;
+
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   Future<void> prosesAddPegawai() async {
     if (passAdminC.text.isNotEmpty) {
+      isLoadingAddPegawai.value = true;
       try {
         String emailAdmin = auth.currentUser!.email!;
 
@@ -59,7 +63,9 @@ class AddPegawaiController extends GetxController {
 
           Get.snackbar("BERHASIL", "Berhasil membuat akun pegawai");
         }
+        isLoadingAddPegawai.value = false;
       } on FirebaseAuthException catch (e) {
+        isLoadingAddPegawai.value = false;
         if (e.code == "weak-password") {
           Get.snackbar("TERJADI KESALAHAN",
               "Kata sandi yang anda ingin gunakan terlalu lemah");
@@ -72,17 +78,20 @@ class AddPegawaiController extends GetxController {
           Get.snackbar("TERJADI KESALAHAN", e.code);
         }
       } catch (e) {
+        isLoadingAddPegawai.value = false;
         Get.snackbar("TERJADI KESALAHAN", "Tidak dapat membuat akun pegawai");
       }
     } else {
+      isLoading.value = false;
       Get.snackbar("TERJADI KESALAHAN", "Kata sandi harus diisi");
     }
   }
 
-  void addPegawai() async {
+  Future<void> addPegawai() async {
     if (nipC.text.isNotEmpty &&
         nameC.text.isNotEmpty &&
         emailC.text.isNotEmpty) {
+      isLoading.value = true;
       Get.defaultDialog(
         title: "Validasi Admin",
         content: Column(
@@ -103,16 +112,25 @@ class AddPegawaiController extends GetxController {
           ],
         ),
         actions: [
-          ElevatedButton(
-              style:
-                  ElevatedButton.styleFrom(backgroundColor: Colors.green[900]),
-              onPressed: () async {
-                await prosesAddPegawai();
-              },
-              child: Text(
-                "TAMBAH PEGAWAI",
-                style: TextStyle(color: Colors.white),
-              ))
+          Obx(
+            () {
+              return ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green[900]),
+                  onPressed: () async {
+                    if (isLoadingAddPegawai.isFalse) {
+                      await prosesAddPegawai();
+                      isLoading.value = false;
+                    }
+                  },
+                  child: Text(
+                    isLoadingAddPegawai.isFalse
+                        ? "TAMBAH PEGAWAI"
+                        : "TUNGGU YA..",
+                    style: TextStyle(color: Colors.white),
+                  ));
+            },
+          ),
         ],
       );
     } else {

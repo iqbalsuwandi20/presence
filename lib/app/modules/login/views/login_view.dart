@@ -49,16 +49,22 @@ class LoginView extends GetView<LoginController> {
           SizedBox(
             height: 50,
           ),
-          ElevatedButton(
-              style:
-                  ElevatedButton.styleFrom(backgroundColor: Colors.green[900]),
-              onPressed: () {
-                controller.login();
-              },
-              child: Text(
-                "MASUK",
-                style: TextStyle(color: Colors.white),
-              )),
+          Obx(
+            () {
+              return ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green[900]),
+                  onPressed: () async {
+                    if (controller.isLoading.isFalse) {
+                      await controller.login();
+                    }
+                  },
+                  child: Text(
+                    controller.isLoading.isFalse ? "MASUK" : "TUNGGU YA..",
+                    style: TextStyle(color: Colors.white),
+                  ));
+            },
+          ),
           SizedBox(
             height: 20,
           ),

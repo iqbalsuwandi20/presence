@@ -32,20 +32,33 @@ class HomeView extends GetView<HomeController> {
           style: TextStyle(fontSize: 20),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          await FirebaseAuth.instance.signOut();
+      floatingActionButton: Obx(
+        () {
+          return FloatingActionButton(
+            onPressed: () async {
+              if (controller.isLoading.isFalse) {
+                controller.isLoading.value = true;
+                await FirebaseAuth.instance.signOut();
+                controller.isLoading.value = false;
 
-          Get.offAllNamed(Routes.LOGIN);
+                Get.offAllNamed(Routes.LOGIN);
 
-          Get.snackbar(
-              "BERHASIL", "Anda berhasil keluar, silahkan masuk kembali!!");
+                Get.snackbar("BERHASIL",
+                    "Anda berhasil keluar, silahkan masuk kembali!!");
+              }
+            },
+            backgroundColor: Colors.green[900],
+            child: controller.isLoading.isFalse
+                ? Icon(
+                    Icons.logout_outlined,
+                    color: Colors.white,
+                  )
+                : Icon(
+                    Icons.clean_hands_outlined,
+                    color: Colors.white,
+                  ),
+          );
         },
-        backgroundColor: Colors.green[900],
-        child: Icon(
-          Icons.logout_outlined,
-          color: Colors.white,
-        ),
       ),
     );
   }

@@ -8,10 +8,14 @@ class LoginController extends GetxController {
   TextEditingController emailC = TextEditingController();
   TextEditingController passC = TextEditingController();
 
+  RxBool isLoading = false.obs;
+  RxBool isLoadingEmailVerified = false.obs;
+
   FirebaseAuth auth = FirebaseAuth.instance;
 
-  void login() async {
+  Future<void> login() async {
     if (emailC.text.isNotEmpty && passC.text.isNotEmpty) {
+      isLoading.value = true;
       try {
         UserCredential userCredential = await auth.signInWithEmailAndPassword(
           email: emailC.text,
@@ -20,6 +24,7 @@ class LoginController extends GetxController {
 
         if (userCredential.user != null) {
           if (userCredential.user!.emailVerified == true) {
+            isLoading.value = false;
             if (passC.text == "admin123") {
               Get.offAllNamed(Routes.NEW_PASSWORD);
 
@@ -27,8 +32,12 @@ class LoginController extends GetxController {
                   "TERJADI KESALAHAN", "Anda harus mengganti kata sandi anda!");
             } else {
               Get.offAllNamed(Routes.HOME);
+
+              Get.snackbar("BERHASIL",
+                  "Selamat datang kembali ${auth.currentUser!.email}");
             }
           } else {
+            isLoading.value = true;
             Get.defaultDialog(
                 title: "TERJADI KESALAHAN",
                 middleText:
@@ -45,7 +54,9 @@ class LoginController extends GetxController {
 
                           Get.snackbar("BERHASIL",
                               "Sudah dikirim ke email anda, mohon di cek!");
+                          isLoading.value = false;
                         } catch (e) {
+                          isLoading.value = false;
                           Get.snackbar("TERJADI KESALAHAN",
                               "Tidak dapat mengirim email verifikasi. Mohon tulis email anda dengan benar");
                         }
@@ -57,7 +68,9 @@ class LoginController extends GetxController {
                 ]);
           }
         }
+        isLoading.value = false;
       } on FirebaseAuthException catch (e) {
+        isLoading.value = false;
         if (e.code == "user-not-found") {
           Get.snackbar("TERJADI KESALAHAN", "Email tidak terdaftar");
         } else if (e.code == "wrong-password") {
@@ -65,6 +78,7 @@ class LoginController extends GetxController {
               "TERJADI KESALAHAN", "Kata sandi yang ada gunakan salah");
         }
       } catch (e) {
+        isLoading.value = false;
         Get.snackbar("TERJADI KESALAHAN", "Tidak dapat masuk");
       }
     } else {

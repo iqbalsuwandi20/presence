@@ -73,16 +73,24 @@ class AddPegawaiView extends GetView<AddPegawaiController> {
           SizedBox(
             height: 50,
           ),
-          ElevatedButton(
-              style:
-                  ElevatedButton.styleFrom(backgroundColor: Colors.green[900]),
-              onPressed: () {
-                controller.addPegawai();
-              },
-              child: Text(
-                "TAMBAH PEGAWAI",
-                style: TextStyle(color: Colors.white),
-              ))
+          Obx(
+            () {
+              return ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green[900]),
+                  onPressed: () async {
+                    if (controller.isLoading.isFalse) {
+                      await controller.addPegawai();
+                    }
+                  },
+                  child: Text(
+                    controller.isLoading.isFalse
+                        ? "TAMBAH PEGAWAI"
+                        : "TUNGGU YA..",
+                    style: TextStyle(color: Colors.white),
+                  ));
+            },
+          ),
         ],
       ),
     );

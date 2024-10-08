@@ -34,16 +34,24 @@ class NewPasswordView extends GetView<NewPasswordController> {
           SizedBox(
             height: 50,
           ),
-          ElevatedButton(
-              style:
-                  ElevatedButton.styleFrom(backgroundColor: Colors.green[900]),
-              onPressed: () {
-                controller.newPassword();
-              },
-              child: Text(
-                "GANTI KATA SANDI",
-                style: TextStyle(color: Colors.white),
-              ))
+          Obx(
+            () {
+              return ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green[900]),
+                  onPressed: () async {
+                    if (controller.isLoading.isFalse) {
+                      await controller.newPassword();
+                    }
+                  },
+                  child: Text(
+                    controller.isLoading.isFalse
+                        ? "GANTI KATA SANDI"
+                        : "TUNGGU YA..",
+                    style: TextStyle(color: Colors.white),
+                  ));
+            },
+          ),
         ],
       ),
     );
