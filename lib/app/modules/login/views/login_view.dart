@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../routes/app_pages.dart';
 import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
@@ -69,7 +70,9 @@ class LoginView extends GetView<LoginController> {
             height: 20,
           ),
           TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Get.toNamed(Routes.FORGET_PASSWORD);
+              },
               child: Text(
                 "Lupa Kata Sandi?",
                 style: TextStyle(
