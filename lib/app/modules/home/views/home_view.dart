@@ -19,11 +19,11 @@ class HomeView extends GetView<HomeController> {
         backgroundColor: Colors.green[900],
         actions: [
           IconButton(
-              onPressed: () => Get.toNamed(Routes.ADD_PEGAWAI),
+              onPressed: () => Get.toNamed(Routes.PROFILE),
               icon: Icon(
-                Icons.person_add_alt,
+                Icons.person_2_outlined,
                 color: Colors.white,
-              ))
+              )),
         ],
       ),
       body: const Center(

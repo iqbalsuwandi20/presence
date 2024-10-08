@@ -30,7 +30,7 @@ class NewPasswordController extends GetxController {
           Get.offAllNamed(Routes.HOME);
 
           Get.snackbar('BERHASIL',
-              "Berhasil mengganti kata sandi, dan selamatn datang kembali ${auth.currentUser!.email}");
+              "Berhasil mengganti kata sandi, dan selamat datang kembali ${auth.currentUser!.email}");
 
           isLoading.value = false;
         } on FirebaseAuthException catch (e) {
