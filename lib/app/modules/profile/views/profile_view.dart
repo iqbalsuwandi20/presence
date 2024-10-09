@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../routes/app_pages.dart';
 import '../controllers/profile_controller.dart';
 
 class ProfileView extends GetView<ProfileController> {
@@ -68,7 +69,12 @@ class ProfileView extends GetView<ProfileController> {
                   ),
                   SizedBox(height: 20),
                   ListTile(
-                    onTap: () {},
+                    onTap: () {
+                      Get.toNamed(
+                        Routes.UPDATE_PROFILE,
+                        arguments: user,
+                      );
+                    },
                     leading:
                         Icon(Icons.person_2_outlined, color: Colors.green[900]),
                     title: Text(
@@ -77,7 +83,9 @@ class ProfileView extends GetView<ProfileController> {
                     ),
                   ),
                   ListTile(
-                    onTap: () {},
+                    onTap: () {
+                      Get.toNamed(Routes.UPDATE_PASSWORD);
+                    },
                     leading: Icon(Icons.vpn_key_off_outlined,
                         color: Colors.green[900]),
                     title: Text("Ganti Kata Sandi",
@@ -85,7 +93,9 @@ class ProfileView extends GetView<ProfileController> {
                   ),
                   if (user["role"] == "admin")
                     ListTile(
-                      onTap: () {},
+                      onTap: () {
+                        Get.toNamed(Routes.ADD_PEGAWAI);
+                      },
                       leading: Icon(Icons.person_add_alt_1_outlined,
                           color: Colors.green[900]),
                       title: Text("Tambah Pegawai",

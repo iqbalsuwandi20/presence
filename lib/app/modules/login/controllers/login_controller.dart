@@ -75,11 +75,14 @@ class LoginController extends GetxController {
           Get.snackbar("TERJADI KESALAHAN", "Email tidak terdaftar");
         } else if (e.code == "wrong-password") {
           Get.snackbar(
-              "TERJADI KESALAHAN", "Kata sandi yang ada gunakan salah");
+              "TERJADI KESALAHAN", "Kata sandi yang Anda gunakan salah");
+        } else {
+          Get.snackbar(
+              "TERJADI KESALAHAN", "Email dan Kata sandi anda tidak cocok!");
         }
       } catch (e) {
         isLoading.value = false;
-        Get.snackbar("TERJADI KESALAHAN", "Tidak dapat masuk");
+        Get.snackbar("TERJADI KESALAHAN", "Tidak dapat masuk: ${e.toString()}");
       }
     } else {
       Get.snackbar(
