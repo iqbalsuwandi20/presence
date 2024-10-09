@@ -13,4 +13,10 @@ class HomeController extends GetxController {
 
     yield* firestore.collection("pegawai").doc(uid).snapshots();
   }
+
+  Stream<DocumentSnapshot<Map<String, dynamic>>> streamNameAppbar() async* {
+    String uid = auth.currentUser!.uid;
+
+    yield* firestore.collection("pegawai").doc(uid).snapshots();
+  }
 }

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,6 +13,7 @@ class LoginController extends GetxController {
   RxBool isLoadingEmailVerified = false.obs;
 
   FirebaseAuth auth = FirebaseAuth.instance;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   Future<void> login() async {
     if (emailC.text.isNotEmpty && passC.text.isNotEmpty) {
@@ -24,6 +26,15 @@ class LoginController extends GetxController {
 
         if (userCredential.user != null) {
           if (userCredential.user!.emailVerified == true) {
+            // Ambil data pengguna dari Firestore
+            DocumentSnapshot userData = await firestore
+                .collection('pegawai')
+                .doc(userCredential.user!.uid)
+                .get();
+
+            String userName =
+                userData['name']; // Ambil field 'name' dari dokumen
+
             isLoading.value = false;
             if (passC.text == "admin123") {
               Get.offAllNamed(Routes.NEW_PASSWORD);
@@ -33,8 +44,8 @@ class LoginController extends GetxController {
             } else {
               Get.offAllNamed(Routes.HOME);
 
-              Get.snackbar("BERHASIL",
-                  "Selamat datang kembali ${auth.currentUser!.email}");
+              // Tampilkan nama pengguna di snackbar
+              Get.snackbar("BERHASIL", "Selamat datang kembali, $userName");
             }
           } else {
             isLoading.value = true;
