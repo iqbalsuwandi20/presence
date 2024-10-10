@@ -23,7 +23,7 @@ class ProfileView extends GetView<ProfileController> {
           stream: controller.streamUser(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              Center(
+              return Center(
                 child: CircularProgressIndicator(
                   color: Colors.green[900],
                 ),
