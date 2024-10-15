@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:presence/app/routes/app_pages.dart';
 
 import '../../../controllers/page_index_controller.dart';
+import '../../../routes/app_pages.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -41,12 +41,32 @@ class HomeView extends GetView<HomeController> {
           },
         ),
         actions: [
-          IconButton(
-            onPressed: () => Get.toNamed(Routes.PROFILE),
-            icon: const Icon(
-              Icons.person_2_outlined,
-              color: Colors.white,
-            ),
+          StreamBuilder(
+            stream: controller.streamPictureProfile(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return CircleAvatar(
+                  backgroundColor: Colors.grey,
+                );
+              }
+
+              Map<String, dynamic>? user = snapshot.data!.data();
+
+              return GestureDetector(
+                onTap: () {
+                  Get.toNamed(Routes.PROFILE);
+                },
+                child: CircleAvatar(
+                  backgroundColor: Colors.grey,
+                  backgroundImage: NetworkImage(user?["profile"] != null
+                      ? user!["profile"]
+                      : "https://ui-avatars.com/api/?name=${user!["name"]}"),
+                ),
+              );
+            },
+          ),
+          SizedBox(
+            width: 10,
           ),
         ],
       ),
