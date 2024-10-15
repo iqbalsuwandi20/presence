@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -77,6 +79,64 @@ class UpdateProfileView extends GetView<UpdateProfileController> {
                 labelText: "Nama",
                 labelStyle: TextStyle(color: Colors.green[900]),
                 border: OutlineInputBorder()),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Text(
+            "Foto Anda:",
+            style: TextStyle(color: Colors.green[900]),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              GetBuilder<UpdateProfileController>(
+                builder: (c) {
+                  if (c.image != null) {
+                    return ClipOval(
+                      child: SizedBox(
+                        height: 100,
+                        width: 100,
+                        child: Image.file(
+                          File(c.image!.path),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    );
+                  } else if (user["profile"] != null) {
+                    return ClipOval(
+                      child: SizedBox(
+                        height: 100,
+                        width: 100,
+                        child: Image.network(
+                          user["profile"],
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    );
+                  } else {
+                    return Text(
+                      "Foto belum dipilih",
+                      style: TextStyle(color: Colors.green[900]),
+                    );
+                  }
+                },
+              ),
+              TextButton(
+                  onPressed: () {
+                    controller.pickImage();
+                  },
+                  child: Text(
+                    "PILIH FOTO",
+                    style: TextStyle(
+                      color: Colors.green[900],
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )),
+            ],
           ),
           SizedBox(
             height: 50,
