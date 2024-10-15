@@ -91,7 +91,7 @@ class UpdateProfileView extends GetView<UpdateProfileController> {
             height: 10,
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               GetBuilder<UpdateProfileController>(
                 builder: (c) {
@@ -107,15 +107,33 @@ class UpdateProfileView extends GetView<UpdateProfileController> {
                       ),
                     );
                   } else if (user["profile"] != null) {
-                    return ClipOval(
-                      child: SizedBox(
-                        height: 100,
-                        width: 100,
-                        child: Image.network(
-                          user["profile"],
-                          fit: BoxFit.cover,
+                    return Column(
+                      children: [
+                        ClipOval(
+                          child: SizedBox(
+                            height: 100,
+                            width: 100,
+                            child: Image.network(
+                              user["profile"],
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                         ),
-                      ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        TextButton(
+                            onPressed: () {
+                              controller.deleteProfile(user["uid"]);
+                            },
+                            child: Text(
+                              "HAPUS FOTO",
+                              style: TextStyle(
+                                color: Colors.green[900],
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )),
+                      ],
                     );
                   } else {
                     return Text(

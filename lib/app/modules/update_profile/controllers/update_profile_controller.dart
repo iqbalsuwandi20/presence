@@ -29,6 +29,22 @@ class UpdateProfileController extends GetxController {
     }
   }
 
+  void deleteProfile(String uid) async {
+    try {
+      await firestore
+          .collection("pegawai")
+          .doc(uid)
+          .update({"profile": FieldValue.delete()});
+
+      Get.back();
+      Get.snackbar("BERHASIL", "Anda berhasil menghapus foto profil");
+    } catch (e) {
+      Get.snackbar("TERJADI KESALAHAN", "Tidak dapat menghapus foto profil");
+    } finally {
+      update();
+    }
+  }
+
   Future<void> updateProfile(String uid) async {
     if (nipC.text.isNotEmpty &&
         emailC.text.isNotEmpty &&
@@ -49,6 +65,8 @@ class UpdateProfileController extends GetxController {
           data.addAll({"profile": urlImage});
         }
         await firestore.collection("pegawai").doc(uid).update(data);
+
+        image = null;
 
         Get.back();
         Get.snackbar("BERHASIL", "Anda berhasil mengganti profil");
