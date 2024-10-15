@@ -1,13 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:presence/app/routes/app_pages.dart';
 
+import '../../../controllers/page_index_controller.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
-  const HomeView({super.key});
+  HomeView({super.key});
+
+  final pageC = Get.find<PageIndexController>();
 
   @override
   Widget build(BuildContext context) {
@@ -53,33 +56,15 @@ class HomeView extends GetView<HomeController> {
           style: TextStyle(fontSize: 20),
         ),
       ),
-      floatingActionButton: Obx(
-        () {
-          return FloatingActionButton(
-            onPressed: () async {
-              if (controller.isLoading.isFalse) {
-                controller.isLoading.value = true;
-                await FirebaseAuth.instance.signOut();
-                controller.isLoading.value = false;
-
-                Get.offAllNamed(Routes.LOGIN);
-
-                Get.snackbar("BERHASIL",
-                    "Anda berhasil keluar, silahkan masuk kembali!!");
-              }
-            },
-            backgroundColor: Colors.green[900],
-            child: controller.isLoading.isFalse
-                ? const Icon(
-                    Icons.logout_outlined,
-                    color: Colors.white,
-                  )
-                : const Icon(
-                    Icons.clean_hands_outlined,
-                    color: Colors.white,
-                  ),
-          );
-        },
+      bottomNavigationBar: ConvexAppBar(
+        backgroundColor: Colors.green[900],
+        items: [
+          TabItem(icon: Icons.home, title: 'Halaman Utama'),
+          TabItem(icon: Icons.fingerprint, title: 'Sidik Jari'),
+          TabItem(icon: Icons.people, title: 'Profil'),
+        ],
+        initialActiveIndex: pageC.pageIndex.value,
+        onTap: (int i) => pageC.changePage(i),
       ),
     );
   }

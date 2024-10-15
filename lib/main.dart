@@ -4,11 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:presence/firebase_options.dart';
 
+import 'app/controllers/page_index_controller.dart';
 import 'app/routes/app_pages.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  // ignore: unused_local_variable
+  final pageC = Get.put(PageIndexController(), permanent: true);
 
   runApp(
     StreamBuilder<User?>(

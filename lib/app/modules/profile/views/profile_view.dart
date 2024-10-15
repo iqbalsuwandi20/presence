@@ -1,12 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../controllers/page_index_controller.dart';
 import '../../../routes/app_pages.dart';
 import '../controllers/profile_controller.dart';
 
 class ProfileView extends GetView<ProfileController> {
-  const ProfileView({super.key});
+  ProfileView({super.key});
+
+  final pageC = Get.find<PageIndexController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -125,6 +129,16 @@ class ProfileView extends GetView<ProfileController> {
               );
             }
           }),
+      bottomNavigationBar: ConvexAppBar(
+        backgroundColor: Colors.green[900],
+        items: [
+          TabItem(icon: Icons.home, title: 'Halaman Utama'),
+          TabItem(icon: Icons.fingerprint, title: 'Sidik Jari'),
+          TabItem(icon: Icons.people, title: 'Profil'),
+        ],
+        initialActiveIndex: pageC.pageIndex.value,
+        onTap: (int i) => pageC.changePage(i),
+      ),
     );
   }
 }
