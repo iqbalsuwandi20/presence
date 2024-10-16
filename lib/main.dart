@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:presence/firebase_options.dart';
 
 import 'app/controllers/page_index_controller.dart';
+import 'app/modules/loading_page/views/loading_page_view.dart';
 import 'app/routes/app_pages.dart';
 
 void main() async {
@@ -22,13 +23,12 @@ void main() async {
             return MaterialApp(
               home: Scaffold(
                 body: Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.green[900],
-                  ),
+                  child: LoadingPageView(),
                 ),
               ),
             );
           }
+          // ignore: avoid_print
           print(snapshot.data);
           return GetMaterialApp(
             title: "Application",

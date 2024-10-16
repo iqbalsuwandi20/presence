@@ -10,7 +10,7 @@ class NewPasswordView extends GetView<NewPasswordController> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'KATA SNADI BARU',
+          'KATA SANDI BARU',
           style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
