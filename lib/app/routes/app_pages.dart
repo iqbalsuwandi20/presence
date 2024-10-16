@@ -35,21 +35,25 @@ class AppPages {
       name: _Paths.ADD_PEGAWAI,
       page: () => const AddPegawaiView(),
       binding: AddPegawaiBinding(),
+      transition: Transition.fadeIn,
     ),
     GetPage(
       name: _Paths.LOGIN,
       page: () => const LoginView(),
       binding: LoginBinding(),
+      transition: Transition.fadeIn,
     ),
     GetPage(
       name: _Paths.NEW_PASSWORD,
       page: () => const NewPasswordView(),
       binding: NewPasswordBinding(),
+      transition: Transition.fadeIn,
     ),
     GetPage(
       name: _Paths.FORGET_PASSWORD,
       page: () => const ForgetPasswordView(),
       binding: ForgetPasswordBinding(),
+      transition: Transition.fadeIn,
     ),
     GetPage(
       name: _Paths.PROFILE,
@@ -61,11 +65,13 @@ class AppPages {
       name: _Paths.UPDATE_PROFILE,
       page: () => UpdateProfileView(),
       binding: UpdateProfileBinding(),
+      transition: Transition.fadeIn,
     ),
     GetPage(
       name: _Paths.UPDATE_PASSWORD,
       page: () => const UpdatePasswordView(),
       binding: UpdatePasswordBinding(),
+      transition: Transition.fadeIn,
     ),
   ];
 }

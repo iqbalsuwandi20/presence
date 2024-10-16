@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../../controllers/page_index_controller.dart';
 import '../../../routes/app_pages.dart';
@@ -28,9 +29,7 @@ class ProfileView extends GetView<ProfileController> {
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
-                child: CircularProgressIndicator(
-                  color: Colors.green[900],
-                ),
+                child: Lottie.asset("assets/lotties/waiting.json"),
               );
             }
             if (snapshot.hasData) {

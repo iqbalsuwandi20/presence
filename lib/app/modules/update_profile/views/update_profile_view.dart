@@ -15,6 +15,7 @@ class UpdateProfileView extends GetView<UpdateProfileController> {
     controller.nipC.text = user["nip"];
     controller.nameC.text = user["name"];
     controller.emailC.text = user["email"];
+    controller.jobC.text = user["job"];
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -77,6 +78,23 @@ class UpdateProfileView extends GetView<UpdateProfileController> {
                   color: Colors.green[900],
                 ),
                 labelText: "Nama",
+                labelStyle: TextStyle(color: Colors.green[900]),
+                border: OutlineInputBorder()),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          TextField(
+            controller: controller.jobC,
+            autocorrect: false,
+            cursorColor: Colors.green[900],
+            textInputAction: TextInputAction.done,
+            decoration: InputDecoration(
+                icon: Icon(
+                  Icons.work_history_outlined,
+                  color: Colors.green[900],
+                ),
+                labelText: "Pekerjaan",
                 labelStyle: TextStyle(color: Colors.green[900]),
                 border: OutlineInputBorder()),
           ),

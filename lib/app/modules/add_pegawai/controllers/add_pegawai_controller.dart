@@ -8,6 +8,7 @@ class AddPegawaiController extends GetxController {
   TextEditingController nameC = TextEditingController();
   TextEditingController emailC = TextEditingController();
   TextEditingController passAdminC = TextEditingController();
+  TextEditingController jobC = TextEditingController();
 
   RxBool isLoading = false.obs;
   RxBool isLoadingAddPegawai = false.obs;
@@ -27,6 +28,7 @@ class AddPegawaiController extends GetxController {
           password: passAdminC.text,
         );
 
+        // ignore: avoid_print
         print(userCredentialAdmin);
 
         UserCredential userCredential =
@@ -42,6 +44,7 @@ class AddPegawaiController extends GetxController {
             "nip": nipC.text,
             "name": nameC.text,
             "email": emailC.text,
+            "job": jobC.text,
             "uid": uid,
             "role": "pegawai",
             "createdAt": DateTime.now().toIso8601String(),
@@ -57,6 +60,7 @@ class AddPegawaiController extends GetxController {
             password: passAdminC.text,
           );
 
+          // ignore: avoid_print
           print(userCredentialAdmin);
 
           Get.back();
@@ -91,7 +95,8 @@ class AddPegawaiController extends GetxController {
   Future<void> addPegawai() async {
     if (nipC.text.isNotEmpty &&
         nameC.text.isNotEmpty &&
-        emailC.text.isNotEmpty) {
+        emailC.text.isNotEmpty &&
+        jobC.text.isNotEmpty) {
       isLoading.value = true;
       Get.defaultDialog(
         title: "Validasi Admin",

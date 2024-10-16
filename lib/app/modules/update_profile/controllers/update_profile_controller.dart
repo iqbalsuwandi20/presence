@@ -10,6 +10,7 @@ class UpdateProfileController extends GetxController {
   TextEditingController nipC = TextEditingController();
   TextEditingController nameC = TextEditingController();
   TextEditingController emailC = TextEditingController();
+  TextEditingController jobC = TextEditingController();
 
   RxBool isLoading = false.obs;
 
@@ -48,11 +49,13 @@ class UpdateProfileController extends GetxController {
   Future<void> updateProfile(String uid) async {
     if (nipC.text.isNotEmpty &&
         emailC.text.isNotEmpty &&
-        nameC.text.isNotEmpty) {
+        nameC.text.isNotEmpty &&
+        jobC.text.isNotEmpty) {
       isLoading.value = true;
       try {
         Map<String, dynamic> data = {
           "name": nameC.text,
+          "job": jobC.text,
         };
         if (image != null) {
           File file = File(image!.path);
