@@ -2,10 +2,14 @@ import 'package:get/get.dart';
 
 import '../modules/add_pegawai/bindings/add_pegawai_binding.dart';
 import '../modules/add_pegawai/views/add_pegawai_view.dart';
+import '../modules/detail_presence/bindings/detail_presence_binding.dart';
+import '../modules/detail_presence/views/detail_presence_view.dart';
 import '../modules/forget_password/bindings/forget_password_binding.dart';
 import '../modules/forget_password/views/forget_password_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
+import '../modules/loading_page/bindings/loading_page_binding.dart';
+import '../modules/loading_page/views/loading_page_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/new_password/bindings/new_password_binding.dart';
@@ -71,6 +75,18 @@ class AppPages {
       name: _Paths.UPDATE_PASSWORD,
       page: () => const UpdatePasswordView(),
       binding: UpdatePasswordBinding(),
+      transition: Transition.fadeIn,
+    ),
+    GetPage(
+      name: _Paths.LOADING_PAGE,
+      page: () => const LoadingPageView(),
+      binding: LoadingPageBinding(),
+      transition: Transition.fadeIn,
+    ),
+    GetPage(
+      name: _Paths.DETAIL_PRESENCE,
+      page: () => const DetailPresenceView(),
+      binding: DetailPresenceBinding(),
       transition: Transition.fadeIn,
     ),
   ];

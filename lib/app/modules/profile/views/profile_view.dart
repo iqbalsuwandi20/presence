@@ -2,10 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 
 import '../../../controllers/page_index_controller.dart';
 import '../../../routes/app_pages.dart';
+import '../../loading_page/views/loading_page_view.dart';
 import '../controllers/profile_controller.dart';
 
 class ProfileView extends GetView<ProfileController> {
@@ -28,9 +28,7 @@ class ProfileView extends GetView<ProfileController> {
           stream: controller.streamUser(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: Lottie.asset("assets/lotties/waiting.json"),
-              );
+              return LoadingPageView();
             }
             if (snapshot.hasData) {
               Map<String, dynamic> user = snapshot.data!.data()!;
