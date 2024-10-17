@@ -115,11 +115,15 @@ class HomeView extends GetView<HomeController> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Text(
-                            user["position"] != null
-                                ? "${user["position"]}"
-                                : "Belum ada Lokasi",
-                            style: TextStyle(color: Colors.green[900]),
+                          SizedBox(
+                            width: 230,
+                            child: Text(
+                              textAlign: TextAlign.left,
+                              user["address"] != null
+                                  ? "Anda berada di, ${user["address"]}"
+                                  : "Belum ada Lokasi",
+                              style: TextStyle(color: Colors.green[900]),
+                            ),
                           ),
                         ],
                       ),
@@ -331,7 +335,7 @@ class HomeView extends GetView<HomeController> {
         backgroundColor: Colors.green[900],
         items: [
           TabItem(icon: Icons.home, title: 'Halaman Utama'),
-          TabItem(icon: Icons.fingerprint, title: 'Sidik Jari'),
+          TabItem(icon: Icons.fingerprint, title: 'Absen'),
           TabItem(icon: Icons.people, title: 'Profil'),
         ],
         initialActiveIndex: pageC.pageIndex.value,
