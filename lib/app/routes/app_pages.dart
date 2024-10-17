@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 import '../modules/add_pegawai/bindings/add_pegawai_binding.dart';
 import '../modules/add_pegawai/views/add_pegawai_view.dart';
+import '../modules/all_presence/bindings/all_presence_binding.dart';
+import '../modules/all_presence/views/all_presence_view.dart';
 import '../modules/detail_presence/bindings/detail_presence_binding.dart';
 import '../modules/detail_presence/views/detail_presence_view.dart';
 import '../modules/forget_password/bindings/forget_password_binding.dart';
@@ -87,6 +89,12 @@ class AppPages {
       name: _Paths.DETAIL_PRESENCE,
       page: () => const DetailPresenceView(),
       binding: DetailPresenceBinding(),
+      transition: Transition.fadeIn,
+    ),
+    GetPage(
+      name: _Paths.ALL_PRESENCE,
+      page: () => const AllPresenceView(),
+      binding: AllPresenceBinding(),
       transition: Transition.fadeIn,
     ),
   ];

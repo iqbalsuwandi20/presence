@@ -13,6 +13,7 @@ abstract class Routes {
   static const UPDATE_PASSWORD = _Paths.UPDATE_PASSWORD;
   static const LOADING_PAGE = _Paths.LOADING_PAGE;
   static const DETAIL_PRESENCE = _Paths.DETAIL_PRESENCE;
+  static const ALL_PRESENCE = _Paths.ALL_PRESENCE;
 }
 
 abstract class _Paths {
@@ -27,4 +28,5 @@ abstract class _Paths {
   static const UPDATE_PASSWORD = '/update-password';
   static const LOADING_PAGE = '/loading-page';
   static const DETAIL_PRESENCE = '/detail-presence';
+  static const ALL_PRESENCE = '/all-presence';
 }

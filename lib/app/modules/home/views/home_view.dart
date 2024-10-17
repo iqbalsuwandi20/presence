@@ -232,9 +232,11 @@ class HomeView extends GetView<HomeController> {
                         ),
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.toNamed(Routes.ALL_PRESENCE);
+                        },
                         child: Text(
-                          "Liat Nanti",
+                          "LIHAT LENGKAP",
                           style: TextStyle(
                             color: Colors.green[900],
                             fontWeight: FontWeight.bold,
@@ -251,59 +253,70 @@ class HomeView extends GetView<HomeController> {
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: 10,
                     itemBuilder: (context, index) {
-                      return Container(
-                        padding: EdgeInsets.all(15),
-                        margin: EdgeInsets.only(bottom: 20),
-                        decoration: BoxDecoration(
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Material(
                           color: Colors.grey[400],
                           borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Align(
-                              alignment: Alignment.topRight,
-                              child: Text(
-                                DateFormat.yMMMMEEEEd().format(DateTime.now()),
-                                style: TextStyle(
-                                  color: Colors.green[900],
-                                  fontWeight: FontWeight.bold,
-                                ),
+                          child: InkWell(
+                            onTap: () {
+                              Get.toNamed(Routes.DETAIL_PRESENCE);
+                            },
+                            child: Container(
+                              padding: EdgeInsets.all(15),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Align(
+                                    alignment: Alignment.topRight,
+                                    child: Text(
+                                      DateFormat.yMMMMEEEEd('id_ID')
+                                          .format(DateTime.now()),
+                                      style: TextStyle(
+                                        color: Colors.green[900],
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Text(
+                                    "Masuk",
+                                    style: TextStyle(
+                                      color: Colors.green[900],
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    DateFormat.jms().format(DateTime.now()),
+                                    style: TextStyle(color: Colors.green[900]),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    "Keluar",
+                                    style: TextStyle(
+                                      color: Colors.green[900],
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    DateFormat.jms().format(DateTime.now()),
+                                    style: TextStyle(color: Colors.green[900]),
+                                  ),
+                                ],
                               ),
                             ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              "Masuk",
-                              style: TextStyle(
-                                color: Colors.green[900],
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              DateFormat.jms().format(DateTime.now()),
-                              style: TextStyle(color: Colors.green[900]),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              "Keluar",
-                              style: TextStyle(
-                                color: Colors.green[900],
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              DateFormat.jms().format(DateTime.now()),
-                              style: TextStyle(color: Colors.green[900]),
-                            ),
-                          ],
+                          ),
                         ),
                       );
                     },
-                  )
+                  ),
                 ],
               );
             } else {
