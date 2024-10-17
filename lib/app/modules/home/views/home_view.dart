@@ -254,7 +254,7 @@ class HomeView extends GetView<HomeController> {
                     itemCount: 10,
                     itemBuilder: (context, index) {
                       return Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
+                        padding: const EdgeInsets.only(bottom: 20),
                         child: Material(
                           color: Colors.grey[400],
                           borderRadius: BorderRadius.circular(20),
