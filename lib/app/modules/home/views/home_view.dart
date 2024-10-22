@@ -30,7 +30,7 @@ class HomeView extends GetView<HomeController> {
             if (snapshot.hasData) {
               Map<String, dynamic> user = snapshot.data!.data()!;
               return Text(
-                "Hai, ${user["name"] ?? "User"}",
+                "Selamat datang, ${user["name"] ?? "User"}",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 15,
@@ -109,7 +109,7 @@ class HomeView extends GetView<HomeController> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Hai!",
+                            "Hai, ${user["name"] ?? "User"}",
                             style: TextStyle(
                               color: Colors.green[900],
                               fontWeight: FontWeight.bold,

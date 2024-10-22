@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../routes/app_pages.dart';
 
@@ -34,6 +35,8 @@ class PageIndexController extends GetxController {
             position,
             address,
           );
+
+          await presence(position, address);
 
           Get.snackbar("${dataResponse["message"]}", address);
 
@@ -113,5 +116,35 @@ class PageIndexController extends GetxController {
       },
       "address": address,
     });
+  }
+
+  Future<void> presence(Position position, String address) async {
+    String uid = auth.currentUser!.uid;
+
+    CollectionReference<Map<String, dynamic>> collectionPresence =
+        // ignore: await_only_futures
+        await firestore.collection("pegawai").doc(uid).collection("presence");
+
+    QuerySnapshot<Map<String, dynamic>> snapshotPresence =
+        await collectionPresence.get();
+
+    DateTime now = DateTime.now();
+    String todayDocID = DateFormat.yMMMMEEEEd('id_ID').format(now);
+
+    // ignore: avoid_print
+    print(todayDocID);
+
+    if (snapshotPresence.docs.isEmpty) {
+      collectionPresence.doc(todayDocID).set({
+        "date": now.toIso8601String(),
+        "masuk": {
+          "date": now.toIso8601String(),
+          "lat": position.latitude,
+          "long": position.longitude,
+          "address": address,
+          "status": "Di dalam area",
+        },
+      });
+    } else {}
   }
 }
