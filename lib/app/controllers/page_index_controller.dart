@@ -36,7 +36,14 @@ class PageIndexController extends GetxController {
             address,
           );
 
-          await presence(position, address);
+          double distance = Geolocator.distanceBetween(
+            -6.2182594,
+            106.6713904,
+            position.latitude,
+            position.longitude,
+          );
+
+          await presence(position, address, distance);
 
           Get.snackbar("${dataResponse["message"]}", address);
 
@@ -118,7 +125,8 @@ class PageIndexController extends GetxController {
     });
   }
 
-  Future<void> presence(Position position, String address) async {
+  Future<void> presence(
+      Position position, String address, double distance) async {
     String uid = auth.currentUser!.uid;
 
     CollectionReference<Map<String, dynamic>> collectionPresence =
@@ -134,6 +142,12 @@ class PageIndexController extends GetxController {
     // ignore: avoid_print
     print(todayDocID);
 
+    String status = "Diluar Area Kantor";
+
+    if (distance <= 100) {
+      status = "Didalam Area Kantor";
+    }
+
     if (snapshotPresence.docs.isEmpty) {
       await collectionPresence.doc(todayDocID).set({
         "date": DateFormat.jms().format(now),
@@ -142,7 +156,7 @@ class PageIndexController extends GetxController {
           "lat": position.latitude,
           "long": position.longitude,
           "address": address,
-          "status": "Di dalam area",
+          "status": status,
         },
       });
     } else {
@@ -159,7 +173,7 @@ class PageIndexController extends GetxController {
               "lat": position.latitude,
               "long": position.longitude,
               "address": address,
-              "status": "Di dalam area",
+              "status": status,
             },
           });
         }
@@ -171,7 +185,7 @@ class PageIndexController extends GetxController {
             "lat": position.latitude,
             "long": position.longitude,
             "address": address,
-            "status": "Di dalam area",
+            "status": status,
           },
         });
       }
