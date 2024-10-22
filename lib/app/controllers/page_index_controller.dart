@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -9,6 +10,7 @@ import '../routes/app_pages.dart';
 
 class PageIndexController extends GetxController {
   RxInt pageIndex = 0.obs;
+  RxBool isLoading = false.obs;
 
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -44,8 +46,6 @@ class PageIndexController extends GetxController {
           );
 
           await presence(position, address, distance);
-
-          Get.snackbar("${dataResponse["message"]}", address);
 
           // ignore: avoid_print
           print("${position.latitude}, ${position.longitude}");
@@ -149,48 +149,151 @@ class PageIndexController extends GetxController {
     }
 
     if (snapshotPresence.docs.isEmpty) {
-      await collectionPresence.doc(todayDocID).set({
-        "date": now.toIso8601String(),
-        "masuk": {
-          "clock": now.toIso8601String(),
-          "lat": position.latitude,
-          "long": position.longitude,
-          "address": address,
-          "status": status,
-          "distance": distance,
-        },
-      });
+      await Get.defaultDialog(
+        title: "Validasi Absensi",
+        middleText: "Apakah anda yakin untuk absensi masuk?",
+        actions: [
+          ElevatedButton(
+              onPressed: () {
+                Get.back();
+              },
+              style:
+                  ElevatedButton.styleFrom(backgroundColor: Colors.green[900]),
+              child: Text(
+                "BATAL",
+                style: TextStyle(color: Colors.white),
+              )),
+          Obx(
+            () {
+              return ElevatedButton(
+                  onPressed: () async {
+                    if (isLoading.isFalse) {
+                      await collectionPresence.doc(todayDocID).set({
+                        "date": now.toIso8601String(),
+                        "masuk": {
+                          "clock": now.toIso8601String(),
+                          "lat": position.latitude,
+                          "long": position.longitude,
+                          "address": address,
+                          "status": status,
+                          "distance": distance,
+                        },
+                      });
+                    }
+                    Get.back();
+                    Get.snackbar("BERHASIL",
+                        "Anda berhasil absensi masuk, anda berada di $address");
+                  },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green[900]),
+                  child: Text(
+                    isLoading.isFalse ? "YAKIN" : "TUNGGU YA..",
+                    style: TextStyle(color: Colors.white),
+                  ));
+            },
+          ),
+        ],
+      );
     } else {
       DocumentSnapshot<Map<String, dynamic>> todayDoc =
           await collectionPresence.doc(todayDocID).get();
       if (todayDoc.exists == true) {
         Map<String, dynamic>? dataPresenceToday = todayDoc.data();
         if (dataPresenceToday?["keluar"] != null) {
-          Get.snackbar("BERHASIL", "Anda telah absen masuk dan keluar.");
+          Get.snackbar("INFORMASI",
+              "Anda telah absen masuk dan keluar. Tidak dapat mengubah data kembali.");
         } else {
-          await collectionPresence.doc(todayDocID).update({
-            "keluar": {
-              "clock": now.toIso8601String(),
-              "lat": position.latitude,
-              "long": position.longitude,
-              "address": address,
-              "status": status,
-              "distance": distance,
-            },
-          });
+          await Get.defaultDialog(
+            title: "Validasi Absensi",
+            middleText: "Apakah anda yakin untuk absensi keluar?",
+            actions: [
+              ElevatedButton(
+                  onPressed: () {
+                    Get.back();
+                  },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green[900]),
+                  child: Text(
+                    "BATAL",
+                    style: TextStyle(color: Colors.white),
+                  )),
+              Obx(
+                () {
+                  return ElevatedButton(
+                      onPressed: () async {
+                        if (isLoading.isFalse) {
+                          await collectionPresence.doc(todayDocID).update({
+                            "keluar": {
+                              "clock": now.toIso8601String(),
+                              "lat": position.latitude,
+                              "long": position.longitude,
+                              "address": address,
+                              "status": status,
+                              "distance": distance,
+                            },
+                          });
+                        }
+                        Get.back();
+                        Get.snackbar("BERHASIL",
+                            "Anda berhasil abnsensi keluar, anda berada di $address");
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green[900]),
+                      child: Text(
+                        isLoading.isFalse ? "YAKIN" : "TUNGGU YA..",
+                        style: TextStyle(color: Colors.white),
+                      ));
+                },
+              ),
+            ],
+          );
         }
       } else {
-        await collectionPresence.doc(todayDocID).set({
-          "date": now.toIso8601String(),
-          "masuk": {
-            "clock": now.toIso8601String(),
-            "lat": position.latitude,
-            "long": position.longitude,
-            "address": address,
-            "status": status,
-            "distance": distance,
-          },
-        });
+        await Get.defaultDialog(
+          title: "Validasi Absensi",
+          middleText: "Apakah anda yakin untuk absensi masuk?",
+          actions: [
+            ElevatedButton(
+                onPressed: () {
+                  Get.back();
+                },
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green[900]),
+                child: Text(
+                  "BATAL",
+                  style: TextStyle(color: Colors.white),
+                )),
+            Obx(
+              () {
+                return ElevatedButton(
+                    onPressed: () async {
+                      if (isLoading.isFalse) {
+                        await collectionPresence.doc(todayDocID).set({
+                          "date": now.toIso8601String(),
+                          "masuk": {
+                            "clock": now.toIso8601String(),
+                            "lat": position.latitude,
+                            "long": position.longitude,
+                            "address": address,
+                            "status": status,
+                            "distance": distance,
+                          },
+                        });
+                      }
+                      Get.back();
+                      Get.snackbar("BERHASIL",
+                          "Anda berhasil absensi masuk, anda berada di $address");
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green[900]),
+                    child: Text(
+                      isLoading.isFalse ? "YAKIN" : "TUNGGU YA..",
+                      style: TextStyle(color: Colors.white),
+                    ));
+              },
+            ),
+          ],
+        );
       }
     }
   }
