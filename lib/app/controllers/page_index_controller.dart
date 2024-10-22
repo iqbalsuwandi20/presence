@@ -137,7 +137,7 @@ class PageIndexController extends GetxController {
         await collectionPresence.get();
 
     DateTime now = DateTime.now();
-    String todayDocID = DateFormat.yMMMMEEEEd('id_ID').format(now);
+    String todayDocID = DateFormat.yMd().format(now).replaceAll("/", "-");
 
     // ignore: avoid_print
     print(todayDocID);
@@ -150,13 +150,14 @@ class PageIndexController extends GetxController {
 
     if (snapshotPresence.docs.isEmpty) {
       await collectionPresence.doc(todayDocID).set({
-        "date": DateFormat.jms().format(now),
+        "date": now.toIso8601String(),
         "masuk": {
-          "date": DateFormat.jms().format(now),
+          "clock": now.toIso8601String(),
           "lat": position.latitude,
           "long": position.longitude,
           "address": address,
           "status": status,
+          "distance": distance,
         },
       });
     } else {
@@ -169,23 +170,25 @@ class PageIndexController extends GetxController {
         } else {
           await collectionPresence.doc(todayDocID).update({
             "keluar": {
-              "date": DateFormat.jms().format(now),
+              "clock": now.toIso8601String(),
               "lat": position.latitude,
               "long": position.longitude,
               "address": address,
               "status": status,
+              "distance": distance,
             },
           });
         }
       } else {
         await collectionPresence.doc(todayDocID).set({
-          "date": DateFormat.jms().format(now),
+          "date": now.toIso8601String(),
           "masuk": {
-            "date": DateFormat.jms().format(now),
+            "clock": now.toIso8601String(),
             "lat": position.latitude,
             "long": position.longitude,
             "address": address,
             "status": status,
+            "distance": distance,
           },
         });
       }

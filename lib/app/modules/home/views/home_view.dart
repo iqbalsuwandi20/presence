@@ -254,75 +254,115 @@ class HomeView extends GetView<HomeController> {
                   SizedBox(
                     height: 30,
                   ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: 10,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 20),
-                        child: Material(
-                          color: Colors.grey[400],
-                          borderRadius: BorderRadius.circular(20),
-                          child: InkWell(
-                            onTap: () {
-                              Get.toNamed(Routes.DETAIL_PRESENCE);
-                            },
-                            child: Container(
-                              padding: EdgeInsets.all(15),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Align(
-                                    alignment: Alignment.topRight,
-                                    child: Text(
-                                      DateFormat.yMMMMEEEEd('id_ID')
-                                          .format(DateTime.now()),
-                                      style: TextStyle(
-                                        color: Colors.green[900],
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                  Text(
-                                    "Masuk",
-                                    style: TextStyle(
-                                      color: Colors.green[900],
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Text(
-                                    DateFormat.jms().format(DateTime.now()),
-                                    style: TextStyle(color: Colors.green[900]),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    "Keluar",
-                                    style: TextStyle(
-                                      color: Colors.green[900],
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Text(
-                                    DateFormat.jms().format(DateTime.now()),
-                                    style: TextStyle(color: Colors.green[900]),
-                                  ),
-                                ],
+                  StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                      stream: controller.streamLastPresence(),
+                      builder: (context, snapPresence) {
+                        if (snapPresence.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(
+                            child: CircularProgressIndicator(
+                              backgroundColor: Colors.green[900],
+                            ),
+                          );
+                        }
+                        if (snapPresence.data!.docs.isEmpty ||
+                            snapPresence.data == null) {
+                          return SizedBox(
+                            height: 100,
+                            child: Center(
+                              child: Text(
+                                "Belum ada riyawat absensi",
+                                style: TextStyle(color: Colors.green[900]),
                               ),
                             ),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
+                          );
+                        }
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: snapPresence.data!.docs.length,
+                          itemBuilder: (context, index) {
+                            Map<String, dynamic> data = snapPresence
+                                .data!.docs.reversed
+                                .toList()[index]
+                                .data();
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 20),
+                              child: Material(
+                                color: Colors.grey[400],
+                                borderRadius: BorderRadius.circular(20),
+                                child: InkWell(
+                                  onTap: () {
+                                    Get.toNamed(Routes.DETAIL_PRESENCE);
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.all(15),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Align(
+                                          alignment: Alignment.topRight,
+                                          child: Text(
+                                            DateFormat.yMMMMEEEEd('id_ID')
+                                                .format(DateTime.parse(
+                                                    data["date"])),
+                                            style: TextStyle(
+                                              color: Colors.green[900],
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        Text(
+                                          "Masuk",
+                                          style: TextStyle(
+                                            color: Colors.green[900],
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Text(
+                                          data["masuk"]?["clock"] == null
+                                              ? "-"
+                                              : DateFormat.jms().format(
+                                                  DateTime.parse(
+                                                      data["masuk"]!["clock"])),
+                                          style: TextStyle(
+                                              color: Colors.green[900]),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(
+                                          "Keluar",
+                                          style: TextStyle(
+                                            color: Colors.green[900],
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Text(
+                                          data["keluar"]?["clock"] == null
+                                              ? "-"
+                                              : DateFormat.jms().format(
+                                                  DateTime.parse(data[
+                                                      "keluar"]!["clock"])),
+                                          style: TextStyle(
+                                              color: Colors.green[900]),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      }),
                 ],
               );
             } else {
