@@ -177,46 +177,70 @@ class HomeView extends GetView<HomeController> {
                     decoration: BoxDecoration(
                         color: Colors.grey[400],
                         borderRadius: BorderRadius.circular(20)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Column(
-                          children: [
-                            Text(
-                              "Masuk",
-                              style: TextStyle(
+                    child: StreamBuilder<
+                            DocumentSnapshot<Map<String, dynamic>>>(
+                        stream: controller.streamTodayPresence(),
+                        builder: (context, snapToday) {
+                          if (snapToday.connectionState ==
+                              ConnectionState.waiting) {
+                            return Center(
+                              child: CircularProgressIndicator(
                                 color: Colors.green[900],
-                                fontWeight: FontWeight.bold,
                               ),
-                            ),
-                            Text(
-                              "-",
-                              style: TextStyle(color: Colors.green[900]),
-                            ),
-                          ],
-                        ),
-                        Container(
-                          width: 5,
-                          height: 50,
-                          color: Colors.green[900],
-                        ),
-                        Column(
-                          children: [
-                            Text(
-                              "Keluar",
-                              style: TextStyle(
+                            );
+                          }
+
+                          Map<String, dynamic>? dataToday =
+                              snapToday.data?.data();
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Column(
+                                children: [
+                                  Text(
+                                    "Masuk",
+                                    style: TextStyle(
+                                      color: Colors.green[900],
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    dataToday?["masuk"] == null
+                                        ? "-"
+                                        : DateFormat.jms().format(
+                                            DateTime.parse(
+                                                dataToday!["masuk"]["clock"])),
+                                    style: TextStyle(color: Colors.green[900]),
+                                  ),
+                                ],
+                              ),
+                              Container(
+                                width: 5,
+                                height: 50,
                                 color: Colors.green[900],
-                                fontWeight: FontWeight.bold,
                               ),
-                            ),
-                            Text(
-                              "-",
-                              style: TextStyle(color: Colors.green[900]),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                              Column(
+                                children: [
+                                  Text(
+                                    "Keluar",
+                                    style: TextStyle(
+                                      color: Colors.green[900],
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    dataToday?["keluar"] == null
+                                        ? "-"
+                                        : DateFormat.jms().format(
+                                            DateTime.parse(
+                                                dataToday!["keluar"]["clock"])),
+                                    style: TextStyle(color: Colors.green[900]),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          );
+                        }),
                   ),
                   SizedBox(
                     height: 30,
@@ -282,10 +306,8 @@ class HomeView extends GetView<HomeController> {
                           physics: NeverScrollableScrollPhysics(),
                           itemCount: snapPresence.data!.docs.length,
                           itemBuilder: (context, index) {
-                            Map<String, dynamic> data = snapPresence
-                                .data!.docs.reversed
-                                .toList()[index]
-                                .data();
+                            Map<String, dynamic> data =
+                                snapPresence.data!.docs[index].data();
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 20),
                               child: Material(
