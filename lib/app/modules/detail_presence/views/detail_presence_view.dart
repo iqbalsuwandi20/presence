@@ -6,7 +6,9 @@ import 'package:intl/intl.dart';
 import '../controllers/detail_presence_controller.dart';
 
 class DetailPresenceView extends GetView<DetailPresenceController> {
-  const DetailPresenceView({super.key});
+  DetailPresenceView({super.key});
+
+  final Map<String, dynamic> data = Get.arguments;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +35,7 @@ class DetailPresenceView extends GetView<DetailPresenceController> {
                 Center(
                   child: Text(
                     DateFormat.yMMMMEEEEd('id_ID')
-                        .format(DateTime.now())
+                        .format(DateTime.parse(data["date"]))
                         .toString()
                         .toUpperCase(),
                     style: TextStyle(
@@ -53,15 +55,34 @@ class DetailPresenceView extends GetView<DetailPresenceController> {
                   ),
                 ),
                 Text(
-                  "Jam: ${DateFormat.jms().format(DateTime.now())}",
+                  data["masuk"]?["clock"] == null
+                      ? "Jam: -"
+                      : "Jam: ${DateFormat.jms().format(DateTime.parse(data["masuk"]!["clock"]))}",
                   style: TextStyle(color: Colors.green[900]),
                 ),
                 Text(
-                  "Posisi:",
+                  data["masuk"]?["address"] == null
+                      ? "Alamat: -"
+                      : "Alamat: ${data["masuk"]!["address"]}",
                   style: TextStyle(color: Colors.green[900]),
                 ),
                 Text(
-                  "Status:",
+                  data["masuk"]?["lat"] == null &&
+                          data["masuk"]?["long"] == null
+                      ? "Posisi: -"
+                      : "Posisi: ${data["masuk"]!["lat"]}, ${data["masuk"]!["long"]}",
+                  style: TextStyle(color: Colors.green[900]),
+                ),
+                Text(
+                  data["masuk"]?["distance"] == null
+                      ? "Jarak: -"
+                      : "Jarak: ${data["masuk"]!["distance"].toString().split(".").first} Meter",
+                  style: TextStyle(color: Colors.green[900]),
+                ),
+                Text(
+                  data["masuk"]?["status"] == null
+                      ? "Status: -"
+                      : "Status: ${data["masuk"]!["status"]}",
                   style: TextStyle(color: Colors.green[900]),
                 ),
                 SizedBox(
@@ -75,15 +96,34 @@ class DetailPresenceView extends GetView<DetailPresenceController> {
                   ),
                 ),
                 Text(
-                  "Jam: ${DateFormat.jms().format(DateTime.now())}",
+                  data["keluar"]?["clock"] == null
+                      ? "Jam: -"
+                      : "Jam: ${DateFormat.jms().format(DateTime.parse(data["keluar"]!["clock"]))}",
                   style: TextStyle(color: Colors.green[900]),
                 ),
                 Text(
-                  "Posisi:",
+                  data["keluar"]?["address"] == null
+                      ? "Alamat: -"
+                      : "Alamat: ${data["keluar"]!["address"]}",
                   style: TextStyle(color: Colors.green[900]),
                 ),
                 Text(
-                  "Status:",
+                  data["keluar"]?["lat"] == null &&
+                          data["keluar"]?["long"] == null
+                      ? "Posisi: -"
+                      : "Posisi: ${data["keluar"]!["lat"]}, ${data["keluar"]!["long"]}",
+                  style: TextStyle(color: Colors.green[900]),
+                ),
+                Text(
+                  data["keluar"]?["distance"] == null
+                      ? "Jarak: -"
+                      : "Jarak: ${data["keluar"]!["distance"].toString().split(".").first} Meter",
+                  style: TextStyle(color: Colors.green[900]),
+                ),
+                Text(
+                  data["keluar"]?["status"] == null
+                      ? "Status: -"
+                      : "Status: ${data["keluar"]!["status"]}",
                   style: TextStyle(color: Colors.green[900]),
                 ),
               ],

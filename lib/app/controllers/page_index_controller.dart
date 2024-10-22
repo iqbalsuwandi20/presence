@@ -142,10 +142,10 @@ class PageIndexController extends GetxController {
     // ignore: avoid_print
     print(todayDocID);
 
-    String status = "Diluar Area Kantor";
+    String status = "Luar Area Kantor";
 
     if (distance <= 100) {
-      status = "Didalam Area Kantor";
+      status = "Dalam Area Kantor";
     }
 
     if (snapshotPresence.docs.isEmpty) {
