@@ -74,6 +74,15 @@ class ProfileView extends GetView<ProfileController> {
                       color: Colors.green[900],
                     ),
                   ),
+                  SizedBox(height: 15),
+                  Text(
+                    user["job"].toString().toUpperCase(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.green[900],
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   SizedBox(height: 20),
                   ListTile(
                     onTap: () {

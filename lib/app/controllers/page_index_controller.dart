@@ -135,16 +135,46 @@ class PageIndexController extends GetxController {
     print(todayDocID);
 
     if (snapshotPresence.docs.isEmpty) {
-      collectionPresence.doc(todayDocID).set({
-        "date": now.toIso8601String(),
+      await collectionPresence.doc(todayDocID).set({
+        "date": DateFormat.jms().format(now),
         "masuk": {
-          "date": now.toIso8601String(),
+          "date": DateFormat.jms().format(now),
           "lat": position.latitude,
           "long": position.longitude,
           "address": address,
           "status": "Di dalam area",
         },
       });
-    } else {}
+    } else {
+      DocumentSnapshot<Map<String, dynamic>> todayDoc =
+          await collectionPresence.doc(todayDocID).get();
+      if (todayDoc.exists == true) {
+        Map<String, dynamic>? dataPresenceToday = todayDoc.data();
+        if (dataPresenceToday?["keluar"] != null) {
+          Get.snackbar("BERHASIL", "Anda telah absen masuk dan keluar.");
+        } else {
+          await collectionPresence.doc(todayDocID).update({
+            "keluar": {
+              "date": DateFormat.jms().format(now),
+              "lat": position.latitude,
+              "long": position.longitude,
+              "address": address,
+              "status": "Di dalam area",
+            },
+          });
+        }
+      } else {
+        await collectionPresence.doc(todayDocID).set({
+          "date": DateFormat.jms().format(now),
+          "masuk": {
+            "date": DateFormat.jms().format(now),
+            "lat": position.latitude,
+            "long": position.longitude,
+            "address": address,
+            "status": "Di dalam area",
+          },
+        });
+      }
+    }
   }
 }
