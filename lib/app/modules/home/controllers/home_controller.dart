@@ -9,6 +9,19 @@ class HomeController extends GetxController {
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
+  String getGreeting() {
+    final hour = DateTime.now().hour;
+    if (hour < 10) {
+      return "Selamat Pagi";
+    } else if (hour < 15) {
+      return "Selamat Siang";
+    } else if (hour < 18) {
+      return "Selamat Sore";
+    } else {
+      return "Selamat Malam";
+    }
+  }
+
   Stream<DocumentSnapshot<Map<String, dynamic>>> streamUser() async* {
     String uid = auth.currentUser!.uid;
 

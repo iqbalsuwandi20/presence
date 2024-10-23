@@ -30,7 +30,7 @@ class HomeView extends GetView<HomeController> {
             if (snapshot.hasData) {
               Map<String, dynamic> user = snapshot.data!.data()!;
               return Text(
-                "Selamat datang, ${user["name"] ?? "User"}",
+                "${controller.getGreeting()}, ${user["name"] ?? "User"}",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 15,
