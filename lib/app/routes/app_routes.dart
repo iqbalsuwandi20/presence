@@ -14,6 +14,7 @@ abstract class Routes {
   static const LOADING_PAGE = _Paths.LOADING_PAGE;
   static const DETAIL_PRESENCE = _Paths.DETAIL_PRESENCE;
   static const ALL_PRESENCE = _Paths.ALL_PRESENCE;
+  static const SPLASH_SCREEN = _Paths.SPLASH_SCREEN;
 }
 
 abstract class _Paths {
@@ -29,4 +30,5 @@ abstract class _Paths {
   static const LOADING_PAGE = '/loading-page';
   static const DETAIL_PRESENCE = '/detail-presence';
   static const ALL_PRESENCE = '/all-presence';
+  static const SPLASH_SCREEN = '/splash-screen';
 }

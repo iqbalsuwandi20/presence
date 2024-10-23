@@ -7,6 +7,7 @@ import 'package:presence/firebase_options.dart';
 
 import 'app/controllers/page_index_controller.dart';
 import 'app/modules/loading_page/views/loading_page_view.dart';
+import 'app/modules/splash_screen/controllers/splash_screen_controller.dart';
 import 'app/routes/app_pages.dart';
 
 void main() async {
@@ -15,8 +16,8 @@ void main() async {
 
   await initializeDateFormatting('id_ID', null);
 
-  // ignore: unused_local_variable
-  final pageC = Get.put(PageIndexController(), permanent: true);
+  Get.put(PageIndexController(), permanent: true);
+  Get.put(SplashScreenController(), permanent: true);
 
   runApp(
     StreamBuilder<User?>(
@@ -36,7 +37,8 @@ void main() async {
           return GetMaterialApp(
             title: "Application",
             debugShowCheckedModeBanner: false,
-            initialRoute: snapshot.data != null ? Routes.HOME : Routes.LOGIN,
+            initialRoute: Routes.SPLASH_SCREEN,
+            // initialRoute: snapshot.data != null ? Routes.HOME : Routes.LOGIN,
             getPages: AppPages.routes,
           );
         }),
