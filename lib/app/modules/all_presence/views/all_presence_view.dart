@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../../../routes/app_pages.dart';
+import '../../loading_page/views/loading_page_view.dart';
 import '../controllers/all_presence_controller.dart';
 
 class AllPresenceView extends GetView<AllPresenceController> {
@@ -28,11 +29,7 @@ class AllPresenceView extends GetView<AllPresenceController> {
               future: controller.getAllPresence(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: CircularProgressIndicator(
-                      backgroundColor: Colors.green[900],
-                    ),
-                  );
+                  return LoadingPageView();
                 }
                 if (snapshot.data!.docs.isEmpty || snapshot.data == null) {
                   return SizedBox(

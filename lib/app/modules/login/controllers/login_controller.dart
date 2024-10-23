@@ -26,14 +26,12 @@ class LoginController extends GetxController {
 
         if (userCredential.user != null) {
           if (userCredential.user!.emailVerified == true) {
-            // Ambil data pengguna dari Firestore
             DocumentSnapshot userData = await firestore
                 .collection('pegawai')
                 .doc(userCredential.user!.uid)
                 .get();
 
-            String userName =
-                userData['name']; // Ambil field 'name' dari dokumen
+            String userName = userData['name'];
 
             isLoading.value = false;
             if (passC.text == "admin123") {
@@ -44,7 +42,6 @@ class LoginController extends GetxController {
             } else {
               Get.offAllNamed(Routes.HOME);
 
-              // Tampilkan nama pengguna di snackbar
               Get.snackbar("BERHASIL", "Selamat datang kembali, $userName");
             }
           } else {
